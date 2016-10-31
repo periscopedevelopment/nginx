@@ -38,6 +38,15 @@ namespace :integration do
     end
   end
 
+  desc 'Run Test Kitchen with Digital Ocean.'
+  task :digitalocean do
+    Kitchen.logger = Kitchen.default_file_logger
+    @loader = Kitchen::Loader::YAML.new(project_config: './.kitchen.digitalocean.yml')
+    Kitchen::Config.new(loader: @loader).instances.each do |instance|
+      instance.test(:always)
+    end
+  end
+
   desc 'Run Test Kitchen with cloud plugins'
   task :cloud do
     run_kitchen = true
